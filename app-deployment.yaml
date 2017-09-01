@@ -16,7 +16,7 @@ spec:
         - name: ROOT_URL
           value: "https://chat.example.com"
         - name: MONGO_URL
-          value: "mongodb://rocketchat-database:27017/rocketchat"
+          value: "mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/rocketchat?replicaSet=rs0"
         ports:
           - name: http
             containerPort: 3000
