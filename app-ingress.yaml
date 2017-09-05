@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: rocketchat-ingress
 spec:
-   tls:
+  tls:
    - hosts:
      - chat.example.com
     secretName: rocketchat-ssl

@@ -26,11 +26,18 @@ $ cat /path/to/key | base64
 # then past it into data.tls.key
 ```
 
-Edit **MongoDB_HA/storage.yaml** to replace the **google cloud SSD** by solution that you want.
+Edit **MongoDB_HA/storage.yaml** to replace the **google cloud SSD** by the solution that you want.
 There are drivers for AWS, Azure, Google Cloud, GlusterFS, OpenStack Cinder, vSphere, Ceph RBD, and Quobyte. More informations on how to use it can be found [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#provisioner).
 
 You can also deploy a single pod mongoDB with **database-deployment.yaml** and **database-service.yaml**.
 In that case replace **mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/rocketchat?replicaSet=rs0** in **app-deployment.yaml** by **mongodb://rocketchat-database:27017/rocketchat**
+
+If you use RBAC you need to bind a cluster role for your application :
+```sh
+  kubectl create clusterrolebinding cluster-view \
+  --clusterrole=view \
+  --serviceaccount=default:default
+```
 
 Then you can start deploying the pods.
 
