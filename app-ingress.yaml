@@ -13,6 +13,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: rocketchat-service
+          serviceName: rocketchat-app
           servicePort: 3000
-

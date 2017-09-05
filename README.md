@@ -26,11 +26,25 @@ $ cat /path/to/key | base64
 # then past it into data.tls.key
 ```
 
+Edit **MongoDB_HA/storage.yaml** to replace the **google cloud SSD** by the solution that you want.
+There are drivers for AWS, Azure, Google Cloud, GlusterFS, OpenStack Cinder, vSphere, Ceph RBD, and Quobyte. More informations on how to use it can be found [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#provisioner).
+
+You can also deploy a single pod mongoDB with **database-deployment.yaml** and **database-service.yaml**.
+In that case replace **mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/rocketchat?replicaSet=rs0** in **app-deployment.yaml** by **mongodb://rocketchat-database:27017/rocketchat**
+
+If you use RBAC you need to bind a cluster role for your application :
+```sh
+  kubectl create clusterrolebinding cluster-view \
+  --clusterrole=view \
+  --serviceaccount=default:default
+```
+
 Then you can start deploying the pods.
 
 ```bash
-$ kubectl create -f database-service.yaml
-$ kubectl create -f database-deployment.yaml
+$ kubectl create -f MongoDB_HA/storage.yaml
+$ kubectl create -f MongoDB_HA/headless_service.yaml
+$ kubectl create -f MongoDB_HA/MongoDB_statefulset.yaml
 $ kubectl create -f app-secrets.yaml
 $ kubectl create -f app-service.yaml
 $ kubectl create -f app-deployment.yaml
@@ -39,6 +53,7 @@ $ kubectl create -f app-ingress.yaml
 ```
 
 The ingress controller act like a internal frontend proxy for the pods, so to access the application you must first find on which node it is running.
+
 
 ```bash
 $ kubectl get po -o wide
