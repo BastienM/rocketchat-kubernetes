@@ -4,8 +4,8 @@ metadata:
   name: rocketchat-ingress
 spec:
   tls:
-   - hosts:
-     - chat.example.com
+  - hosts:
+    - chat.example.com
     secretName: rocketchat-ssl
   rules:
   - host: chat.example.com
