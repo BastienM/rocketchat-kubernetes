@@ -17,6 +17,7 @@ spec:
          image: mongo
          command:
            - mongod
+           - "--bind_ip_all"
            - "--replSet"
            - rs0
            - "--smallfiles"
